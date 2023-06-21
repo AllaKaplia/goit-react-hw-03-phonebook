@@ -18,6 +18,21 @@ class App extends Component {
     filter: '',
   }
 
+  componentDidMount (){
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if(parsedContacts){
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+ 
+  componentDidUpdate = (prevProps, prevState) => {
+    if(prevState.contacts !== this.state.contacts){
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   formSubmitHandle = newContact => {
     const { contacts } = this.state;
   
@@ -48,21 +63,6 @@ class App extends Component {
     this.setState(prevState => ({
       contacts: [...prevState.contacts, contact],
     }));
-  }
-
-  componentDidMount (){
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-
-    if(parsedContacts){
-      this.setState({ contacts: parsedContacts });
-    }
-  }
- 
-  componentDidUpdate = (prevProps, prevState) => {
-    if(prevState.contacts !== this.state.contacts){
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
   }
 
   changeFilter = evt => {
