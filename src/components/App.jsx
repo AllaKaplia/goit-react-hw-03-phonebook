@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import ContactList from "./ContactList";
 import FilterContacts from "./FilterContacts";
 import FormContact from "./FormContact";
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { Container } from './App.styled'
 
 
@@ -28,12 +30,12 @@ class App extends Component {
     );
   
     if (existingContactByName) {
-      alert('A contact with this name already exists!');
+      toast.warn('A contact with this name already exists!');
       return;
     }
   
     if (existingContactByNumber) {
-      alert('A contact with this number already exists!');
+      toast.info('A contact with this number already exists!');
       return;
     }
   
@@ -84,10 +86,11 @@ class App extends Component {
     return (
       <Container>
         <h1>Phonebook</h1>
-        <FormContact addContact={this.addContact}/>
+        <FormContact addContact={this.formSubmitHandle}/>
         <h2>Contacts</h2>
         <FilterContacts value={filter} onChange={this.changeFilter} />
         <ContactList contacts={visibleContacts} onDeleteContact={this.deleteContact} />
+        <ToastContainer theme="colored"/>
       </Container>
     );
   }
