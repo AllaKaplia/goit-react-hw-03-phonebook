@@ -16,17 +16,31 @@ class App extends Component {
     filter: '',
   }
 
-  formSubmitHandle = contact => {
+  formSubmitHandle = newContact => {
     const { contacts } = this.state;
-    const existingContact = contacts.find(c => c.name.toLowerCase() === contact.name.toLowerCase());
   
-    if (existingContact) {
+    const existingContactByName = contacts.find(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+  
+    const existingContactByNumber = contacts.find(
+      contact => contact.number === newContact.number
+    );
+  
+    if (existingContactByName) {
       alert('A contact with this name already exists!');
       return;
     }
-
-    this.addContact();
+  
+    if (existingContactByNumber) {
+      alert('A contact with this number already exists!');
+      return;
+    }
+  
+    this.addContact(newContact);
   }
+  
+  
 
   addContact = (contact) => {
     this.setState(prevState => ({
